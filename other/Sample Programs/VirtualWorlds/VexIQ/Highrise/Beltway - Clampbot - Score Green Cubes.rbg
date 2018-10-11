@@ -1,0 +1,373 @@
+<Version>1.0.1</Version>
+<RBCVersion>1.0.1</RBCVersion>
+<Platform>VEXIQ</Platform>
+<MenuLevel>Basic</MenuLevel>
+<CompilerMode>VirtualWorlds</CompilerMode>
+<CompileAndDownload>Yes</CompileAndDownload>
+<VirtualWorldIndex>6</VirtualWorldIndex>
+<VEXIQDLMethod>Auto</VEXIQDLMethod>
+<NaturalLanguageFlag>True</NaturalLanguageFlag>
+<RVWParameters>clampbot beltway sp1 autoloadgame</RVWParameters>
+<ProgrammingBlock type="comment">Highrise Beltway</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">Highrise Beltway</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">Highrise Beltway Clampbot Robot Bottom Start Point</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">1) Collect the first two green cubes near Bottom Start Point</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">2) Moves to the belt and turn it on manually CCW</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">3) Stops the belt at the Green Stop Pad</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">4) Stack the cubes on top of the Green Base</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">STEP 1) Collect the green cubes</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">armMotor</Parameter>
+        <Parameter name="quantity" type="float">100</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">degrees</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">clawMotor</Parameter>
+        <Parameter name="quantity" type="float">-40</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">degrees</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="forward">
+    <Parameters>
+        <Parameter name="quantity" type="float">1</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">rotations</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="turnLeft">
+    <Parameters>
+        <Parameter name="quantity" type="float">1.067</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">rotations</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMultipleMotors">
+    <Parameters>
+        <Parameter name="speed" type="short">75</Parameter>
+        <Parameter name="firstMotor" type="base typedef" typeDef="tMotor">leftMotor</Parameter>
+        <Parameter name="secondMotor" type="base typedef" typeDef="tMotor">rightMotor</Parameter>
+        <Parameter name="thirdMotor" type="base typedef" typeDef="tMotor"/>
+        <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor"/>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="OneLineLoop" loopType="WaitUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getDistanceValue(distanceMM)</Parameter>
+        <Parameter name="operator" type="typedef">&lt;=</Parameter>
+        <Parameter name="RHS" type="int">66</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="stopAllMotors"/>
+
+<ProgrammingBlock type="comment">STEP 2) Move toward the belt and turn it on CCW</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">armMotor</Parameter>
+        <Parameter name="quantity" type="float">-70</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">degrees</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">clawMotor</Parameter>
+        <Parameter name="quantity" type="float">30</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">degrees</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">armMotor</Parameter>
+        <Parameter name="quantity" type="float">70</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">degrees</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="turnRight">
+    <Parameters>
+        <Parameter name="quantity" type="float">1.067</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">rotations</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMultipleMotors">
+    <Parameters>
+        <Parameter name="speed" type="short">-75</Parameter>
+        <Parameter name="firstMotor" type="base typedef" typeDef="tMotor">leftMotor</Parameter>
+        <Parameter name="secondMotor" type="base typedef" typeDef="tMotor">rightMotor</Parameter>
+        <Parameter name="thirdMotor" type="base typedef" typeDef="tMotor"/>
+        <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor"/>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="OneLineLoop" loopType="WaitUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getBumperValue(bumpSwitch)</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="int">1</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="stopAllMotors"/>
+
+<ProgrammingBlock type="comment">Set the Touch LED to Yellow to turn it on CCW</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setTouchLEDColor">
+    <Parameters>
+        <Parameter name="nDeviceIndex" type="base typedef" typeDef="tSensors">touchLED</Parameter>
+        <Parameter name="nColor" type="base typedef" typeDef="TSimpleColors">colorYellow</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="wait">
+    <Parameters>
+        <Parameter name="quantity" type="float">.2</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">seconds</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">STEP 3) Stop the belt at the Green Stop Pad</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">Set the Touch LED to Green in order to stop at the green pad</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setTouchLEDColor">
+    <Parameters>
+        <Parameter name="nDeviceIndex" type="base typedef" typeDef="tSensors">touchLED</Parameter>
+        <Parameter name="nColor" type="base typedef" typeDef="TSimpleColors">colorGreen</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="OneLineLoop" loopType="WaitUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getColorName(colorDetector)</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="int">colorGreen</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="wait">
+    <Parameters>
+        <Parameter name="quantity" type="float">5</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">seconds</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">STEP 4) Stack the cubes on the Green Base</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">wristMotor</Parameter>
+        <Parameter name="quantity" type="float">60</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">degrees</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMultipleMotors">
+    <Parameters>
+        <Parameter name="speed" type="short">75</Parameter>
+        <Parameter name="firstMotor" type="base typedef" typeDef="tMotor">leftMotor</Parameter>
+        <Parameter name="secondMotor" type="base typedef" typeDef="tMotor">rightMotor</Parameter>
+        <Parameter name="thirdMotor" type="base typedef" typeDef="tMotor"/>
+        <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor"/>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="OneLineLoop" loopType="WaitUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getDistanceValue(distanceMM)</Parameter>
+        <Parameter name="operator" type="typedef">&lt;=</Parameter>
+        <Parameter name="RHS" type="int">100</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="stopAllMotors"/>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">clawMotor</Parameter>
+        <Parameter name="quantity" type="float">-40</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">degrees</Parameter>
+        <Parameter name="speed" type="short">50</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="backward">
+    <Parameters>
+        <Parameter name="quantity" type="float">1</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">rotations</Parameter>
+        <Parameter name="speed" type="short">50</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">Uncomment the Code below to return back home</ProgrammingBlock>
+
+<ProgrammingBlock type="loop" commented="1" loopType="RepeatUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getBumperValue(bumpSwitch)</Parameter>
+        <Parameter name="operator" type="typedef">!=</Parameter>
+        <Parameter name="RHS" type="int">0</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" commented="1" function="setMultipleMotors">
+    <Parameters>
+        <Parameter name="speed" type="short">-75</Parameter>
+        <Parameter name="firstMotor" type="base typedef" typeDef="tMotor">leftMotor</Parameter>
+        <Parameter name="secondMotor" type="base typedef" typeDef="tMotor">rightMotor</Parameter>
+        <Parameter name="thirdMotor" type="base typedef" typeDef="tMotor"/>
+        <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor"/>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="end" commented="1"/>
+
+<ProgrammingBlock type="functionCall" commented="1" function="stopAllMotors"/>
+
+<ProgrammingBlock type="functionCall" commented="1" function="setTouchLEDColor">
+    <Parameters>
+        <Parameter name="nDeviceIndex" type="base typedef" typeDef="tSensors">touchLED</Parameter>
+        <Parameter name="nColor" type="base typedef" typeDef="TSimpleColors">colorViolet</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" commented="1" function="wait">
+    <Parameters>
+        <Parameter name="quantity" type="float">1</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">seconds</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" commented="1" function="setTouchLEDColor">
+    <Parameters>
+        <Parameter name="nDeviceIndex" type="base typedef" typeDef="tSensors">touchLED</Parameter>
+        <Parameter name="nColor" type="base typedef" typeDef="TSimpleColors">colorOrange</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="OneLineLoop" commented="1" loopType="WaitUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getColorName(colorDetector)</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="int">colorOrange</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" commented="1" function="wait">
+    <Parameters>
+        <Parameter name="quantity" type="float">3</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">seconds</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" commented="1" function="forward">
+    <Parameters>
+        <Parameter name="quantity" type="float">1.5</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">rotations</Parameter>
+        <Parameter name="speed" type="short">50</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<RobotConfiguration>#pragma config(Sensor, port2,  touchLED,       sensorVexIQ_LED)
+#pragma config(Sensor, port3,  colorDetector,  sensorVexIQ_ColorHue)
+#pragma config(Sensor, port4,  gyroSensor,     sensorVexIQ_Gyro)
+#pragma config(Sensor, port7,  distanceMM,     sensorVexIQ_Distance)
+#pragma config(Sensor, port8,  bumpSwitch,     sensorVexIQ_Touch)
+#pragma config(Motor,  motor1,          leftMotor,     tmotorVexIQ, PIDControl, driveLeft, encoder)
+#pragma config(Motor,  motor6,          rightMotor,    tmotorVexIQ, PIDControl, reversed, driveRight, encoder)
+#pragma config(Motor,  motor10,         armMotor,      tmotorVexIQ, PIDControl, encoder)
+#pragma config(Motor,  motor11,         clawMotor,     tmotorVexIQ, PIDControl, encoder)
+#pragma config(Motor,  motor12,         wristMotor,    tmotorVexIQ, PIDControl, encoder)
+//*!!Code automatically generated by 'ROBOTC' configuration wizard               !!*//
+</RobotConfiguration>
+
+<CSource>#pragma config(Sensor, port2,  touchLED,       sensorVexIQ_LED)
+#pragma config(Sensor, port3,  colorDetector,  sensorVexIQ_ColorHue)
+#pragma config(Sensor, port4,  gyroSensor,     sensorVexIQ_Gyro)
+#pragma config(Sensor, port7,  distanceMM,     sensorVexIQ_Distance)
+#pragma config(Sensor, port8,  bumpSwitch,     sensorVexIQ_Touch)
+#pragma config(Motor,  motor1,          leftMotor,     tmotorVexIQ, PIDControl, driveLeft, encoder)
+#pragma config(Motor,  motor6,          rightMotor,    tmotorVexIQ, PIDControl, reversed, driveRight, encoder)
+#pragma config(Motor,  motor10,         armMotor,      tmotorVexIQ, PIDControl, encoder)
+#pragma config(Motor,  motor11,         clawMotor,     tmotorVexIQ, PIDControl, encoder)
+#pragma config(Motor,  motor12,         wristMotor,    tmotorVexIQ, PIDControl, encoder)
+//*!!Code automatically generated by 'ROBOTC' configuration wizard               !!*//
+
+
+task main()
+{
+	// Highrise Beltway
+	// Highrise Beltway Clampbot Robot Bottom Start Point
+	// 1) Collect the first two green cubes near Bottom Start Point
+	// 2) Moves to the belt and turn it on manually CCW
+	// 3) Stops the belt at the Green Stop Pad
+	// 4) Stack the cubes on top of the Green Base
+	// STEP 1) Collect the green cubes
+	moveMotor(armMotor, 100, degrees, 75);
+	moveMotor(clawMotor, -40, degrees, 75);
+	forward(1, rotations, 75);
+	turnLeft(1.067, rotations, 75);
+	setMultipleMotors(75, leftMotor, rightMotor, , );
+	waitUntil (getDistanceValue(distanceMM) &lt;= 66);
+	stopAllMotors();
+	// STEP 2) Move toward the belt and turn it on CCW
+	moveMotor(armMotor, -70, degrees, 75);
+	moveMotor(clawMotor, 30, degrees, 75);
+	moveMotor(armMotor, 70, degrees, 75);
+	turnRight(1.067, rotations, 75);
+	setMultipleMotors(-75, leftMotor, rightMotor, , );
+	waitUntil (getBumperValue(bumpSwitch) == 1);
+	stopAllMotors();
+	// Set the Touch LED to Yellow to turn it on CCW
+	setTouchLEDColor(touchLED, colorYellow);
+	wait(.2, seconds);
+	// STEP 3) Stop the belt at the Green Stop Pad
+	// Set the Touch LED to Green in order to stop at the green pad
+	setTouchLEDColor(touchLED, colorGreen);
+	waitUntil (getColorName(colorDetector) == colorGreen);
+	wait(5, seconds);
+	// STEP 4) Stack the cubes on the Green Base
+	moveMotor(wristMotor, 60, degrees, 75);
+	setMultipleMotors(75, leftMotor, rightMotor, , );
+	waitUntil (getDistanceValue(distanceMM) &lt;= 100);
+	stopAllMotors();
+	moveMotor(clawMotor, -40, degrees, 50);
+	backward(1, rotations, 50);
+	// Uncomment the Code below to return back home
+	//repeatUntil (getBumperValue(bumpSwitch) != 0) {
+		//setMultipleMotors(-75, leftMotor, rightMotor, , );
+	//}
+	//stopAllMotors();
+	//setTouchLEDColor(touchLED, colorViolet);
+	//wait(1, seconds);
+	//setTouchLEDColor(touchLED, colorOrange);
+	//waitUntil (getColorName(colorDetector) == colorOrange);
+	//wait(3, seconds);
+	//forward(1.5, rotations, 50);
+}
+</CSource>

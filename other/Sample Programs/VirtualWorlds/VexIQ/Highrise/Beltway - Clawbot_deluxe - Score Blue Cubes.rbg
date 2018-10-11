@@ -1,0 +1,517 @@
+<Version>1.0.1</Version>
+
+<RBCVersion>1.0.1</RBCVersion>
+<Platform>VEXIQ</Platform>
+<MenuLevel>Basic</MenuLevel>
+<CompilerMode>VirtualWorlds</CompilerMode>
+<CompileAndDownload>Yes</CompileAndDownload>
+<VirtualWorldIndex>6</VirtualWorldIndex>
+<VEXIQDLMethod>Auto</VEXIQDLMethod>
+<NaturalLanguageFlag>True</NaturalLanguageFlag>
+<RVWParameters>clawbot_deluxe beltway sp1 autoloadgame</RVWParameters>
+<ProgrammingBlock type="comment">Highrise Beltway</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">Robot:  Clawbot IQ - Deluxe | Starting Point:  A</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">This program will:</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">1) Collect the first blue cube in the center of the warehouse</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">2) Place the first blue cube on the belt</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">3) Retrive the second blue block</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">4) Drive to the blue base and stack the blue block</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">5) Turn the belt on CW until the blue block is on the blue pad</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">6) Retrieve and stack the blue block on to the blue base  </ProgrammingBlock>
+
+<ProgrammingBlock type="comment">STEP 1) Colloect the first blue cube</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">a) Move forward three rotations</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="forward">
+    <Parameters>
+        <Parameter name="quantity" type="float">3</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">rotations</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">b) Use the Gyro Sensor to turn left about 90 degrees</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">leftMotor</Parameter>
+        <Parameter name="speed" type="short">-75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">rightMotor</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="OneLineLoop" loopType="WaitUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getGyroDegrees(gyroSensor)</Parameter>
+        <Parameter name="operator" type="typedef">&gt;=</Parameter>
+        <Parameter name="RHS" type="int">87</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="stopAllMotors"/>
+
+<ProgrammingBlock type="comment">c) Open the claw</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">clawMotor</Parameter>
+        <Parameter name="quantity" type="float">-20</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">degrees</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">d) Move forward until the Sonar Sensor is less than or equal to 75 mm</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMultipleMotors">
+    <Parameters>
+        <Parameter name="speed" type="short">50</Parameter>
+        <Parameter name="firstMotor" type="base typedef" typeDef="tMotor">leftMotor</Parameter>
+        <Parameter name="secondMotor" type="base typedef" typeDef="tMotor">rightMotor</Parameter>
+        <Parameter name="thirdMotor" type="base typedef" typeDef="tMotor"/>
+        <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor"/>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="OneLineLoop" loopType="WaitUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getDistanceValue(distanceMM)</Parameter>
+        <Parameter name="operator" type="typedef">&lt;=</Parameter>
+        <Parameter name="RHS" type="int">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="stopAllMotors"/>
+
+<ProgrammingBlock type="comment">e) Close the Claw</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">clawMotor</Parameter>
+        <Parameter name="quantity" type="float">1</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">seconds</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">f) Use the Gyro Sensor to turn right about 90 degrees (the current reading is at 90)</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">leftMotor</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">rightMotor</Parameter>
+        <Parameter name="speed" type="short">-75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="OneLineLoop" loopType="WaitUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getGyroDegrees(gyroSensor)</Parameter>
+        <Parameter name="operator" type="typedef">&lt;=</Parameter>
+        <Parameter name="RHS" type="int">5</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="stopAllMotors"/>
+
+<ProgrammingBlock type="comment">STEP 2) Place the blue cube on the belt</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">a) Reset the motor encoders so we can use the distance we traveled later</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="resetMotorEncoder">
+    <Parameters>
+        <Parameter name="nMotorIndex" type="base typedef" typeDef="tMotor">leftMotor</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">b) Move forward and raise the arm up until the robot bumps the wall</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMultipleMotors">
+    <Parameters>
+        <Parameter name="speed" type="short">75</Parameter>
+        <Parameter name="firstMotor" type="base typedef" typeDef="tMotor">leftMotor</Parameter>
+        <Parameter name="secondMotor" type="base typedef" typeDef="tMotor">rightMotor</Parameter>
+        <Parameter name="thirdMotor" type="base typedef" typeDef="tMotor"/>
+        <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor"/>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">armMotor</Parameter>
+        <Parameter name="quantity" type="float">3</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">seconds</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="OneLineLoop" loopType="WaitUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getBumperValue(bumpSwitch)</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="int">1</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">c) Back up 1 rotation so we can place the cube on the belt</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="backward">
+    <Parameters>
+        <Parameter name="quantity" type="float">1</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">rotations</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">d) Place the blue cube on the belt</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">armMotor</Parameter>
+        <Parameter name="speed" type="short">-75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="OneLineLoop" loopType="WaitUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getBumperValue(bumpSwitch)</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="int">1</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">clawMotor</Parameter>
+        <Parameter name="quantity" type="float">1</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">seconds</Parameter>
+        <Parameter name="speed" type="short">-75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">STEP 3) Retrieve the second blue block</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">a) Use Motor Encoders to travel back to the warehouse.</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMultipleMotors">
+    <Parameters>
+        <Parameter name="speed" type="short">-75</Parameter>
+        <Parameter name="firstMotor" type="base typedef" typeDef="tMotor">leftMotor</Parameter>
+        <Parameter name="secondMotor" type="base typedef" typeDef="tMotor">rightMotor</Parameter>
+        <Parameter name="thirdMotor" type="base typedef" typeDef="tMotor"/>
+        <Parameter name="fourthMotor" type="base typedef" typeDef="tMotor"/>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="OneLineLoop" loopType="WaitUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getMotorEncoder(leftMotor)</Parameter>
+        <Parameter name="operator" type="typedef">&lt;=</Parameter>
+        <Parameter name="RHS" type="int">0</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="stopAllMotors"/>
+
+<ProgrammingBlock type="comment">b) Use the Gyro Sensor to turn Left 90 Degrees (current reading is at 0)</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">leftMotor</Parameter>
+        <Parameter name="speed" type="short">-75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">rightMotor</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="OneLineLoop" loopType="WaitUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getGyroDegrees(gyroSensor)</Parameter>
+        <Parameter name="operator" type="typedef">&gt;=</Parameter>
+        <Parameter name="RHS" type="int">88</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="stopAllMotors"/>
+
+<ProgrammingBlock type="comment">c) Open the claw and move forward three rotations</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">clawMotor</Parameter>
+        <Parameter name="quantity" type="float">1</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">seconds</Parameter>
+        <Parameter name="speed" type="short">-75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="forward">
+    <Parameters>
+        <Parameter name="quantity" type="float">.3</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">rotations</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">d) Close the claw and grab the block</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">clawMotor</Parameter>
+        <Parameter name="quantity" type="float">1</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">seconds</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">STEP 4) Stack the blue block on to the blue base</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">a) Use the Gyro Sensor to tuen 180 degrees (current reading at 90)</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">leftMotor</Parameter>
+        <Parameter name="speed" type="short">-75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">rightMotor</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="OneLineLoop" loopType="WaitUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getGyroDegrees(gyroSensor)</Parameter>
+        <Parameter name="operator" type="typedef">&gt;=</Parameter>
+        <Parameter name="RHS" type="int">267</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="stopAllMotors"/>
+
+<ProgrammingBlock type="comment">b) Raise the arm up and move forward to the blue base</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">armMotor</Parameter>
+        <Parameter name="quantity" type="float">.8</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">seconds</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="forward">
+    <Parameters>
+        <Parameter name="quantity" type="float">5</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">rotations</Parameter>
+        <Parameter name="speed" type="short">75</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">c) Drop the cube on to the blue base</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="moveMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">clawMotor</Parameter>
+        <Parameter name="quantity" type="float">1</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">seconds</Parameter>
+        <Parameter name="speed" type="short">-50</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">5) Turn on the belt CW until the blue block is on the blue stop pad and retrieve it at the same time.</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">a) Turn left to face the belt</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="turnLeft">
+    <Parameters>
+        <Parameter name="quantity" type="float">.567</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">rotations</Parameter>
+        <Parameter name="speed" type="short">50</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setMotor">
+    <Parameters>
+        <Parameter name="motorPort" type="base typedef" typeDef="tMotor">armMotor</Parameter>
+        <Parameter name="speed" type="short">-50</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="OneLineLoop" loopType="WaitUntil">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getBumperValue(bumpSwitch)</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="int">1</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">b) Turn the belt on CW for 2.07 seconds until turning it off</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setTouchLEDColor">
+    <Parameters>
+        <Parameter name="nDeviceIndex" type="base typedef" typeDef="tSensors">touchLED</Parameter>
+        <Parameter name="nColor" type="base typedef" typeDef="TSimpleColors">colorViolet</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="wait">
+    <Parameters>
+        <Parameter name="quantity" type="float">2.07</Parameter>
+        <Parameter name="unitType" type="base typedef" typeDef="tMovementUnits">seconds</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="setTouchLEDColor">
+    <Parameters>
+        <Parameter name="nDeviceIndex" type="base typedef" typeDef="tSensors">touchLED</Parameter>
+        <Parameter name="nColor" type="base typedef" typeDef="TSimpleColors">colorNone</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="stopAllMotors"/>
+
+<ProgrammingBlock type="comment">END OF SAMPLE PROGRAM</ProgrammingBlock>
+
+<ProgrammingBlock type="comment">6) Retrieve and stack the second blue block</ProgrammingBlock>
+
+<RobotConfiguration>#pragma config(Sensor, port2,  touchLED,       sensorVexIQ_LED)
+#pragma config(Sensor, port3,  colorDetector,  sensorVexIQ_ColorHue)
+#pragma config(Sensor, port4,  gyroSensor,     sensorVexIQ_Gyro)
+#pragma config(Sensor, port5,  clawColorDetector, sensorVexIQ_ColorHue)
+#pragma config(Sensor, port7,  distanceMM,     sensorVexIQ_Distance)
+#pragma config(Sensor, port8,  bumpSwitch,     sensorVexIQ_Touch)
+#pragma config(Motor,  motor1,          leftMotor,     tmotorVexIQ, PIDControl, driveLeft, encoder)
+#pragma config(Motor,  motor6,          rightMotor,    tmotorVexIQ, PIDControl, reversed, driveRight, encoder)
+#pragma config(Motor,  motor10,         armMotor,      tmotorVexIQ, PIDControl, encoder)
+#pragma config(Motor,  motor11,         clawMotor,     tmotorVexIQ, PIDControl, encoder)
+//*!!Code automatically generated by 'ROBOTC' configuration wizard               !!*//
+</RobotConfiguration>
+
+<CSource>#pragma config(Sensor, port2,  touchLED,       sensorVexIQ_LED)
+#pragma config(Sensor, port3,  colorDetector,  sensorVexIQ_ColorHue)
+#pragma config(Sensor, port4,  gyroSensor,     sensorVexIQ_Gyro)
+#pragma config(Sensor, port5,  clawColorDetector, sensorVexIQ_ColorHue)
+#pragma config(Sensor, port7,  distanceMM,     sensorVexIQ_Distance)
+#pragma config(Sensor, port8,  bumpSwitch,     sensorVexIQ_Touch)
+#pragma config(Motor,  motor1,          leftMotor,     tmotorVexIQ, PIDControl, driveLeft, encoder)
+#pragma config(Motor,  motor6,          rightMotor,    tmotorVexIQ, PIDControl, reversed, driveRight, encoder)
+#pragma config(Motor,  motor10,         armMotor,      tmotorVexIQ, PIDControl, encoder)
+#pragma config(Motor,  motor11,         clawMotor,     tmotorVexIQ, PIDControl, encoder)
+//*!!Code automatically generated by 'ROBOTC' configuration wizard               !!*//
+
+
+task main()
+{
+	// Highrise Beltway
+	// Robot:  Clawbot IQ - Deluxe | Starting Point:  A
+	// This program will:
+	// 1) Collect the first blue cube in the center of the warehouse
+	// 2) Place the first blue cube on the belt
+	// 3) Retrive the second blue block
+	// 4) Drive to the blue base and stack the blue block
+	// 5) Turn the belt on CW until the blue block is on the blue pad
+	// 6) Retrieve and stack the blue block on to the blue base  
+	// STEP 1) Colloect the first blue cube
+	// a) Move forward three rotations
+	forward(3, rotations, 75);
+	// b) Use the Gyro Sensor to turn left about 90 degrees
+	setMotor(leftMotor, -75);
+	setMotor(rightMotor, 75);
+	waitUntil (getGyroDegrees(gyroSensor) &gt;= 87);
+	stopAllMotors();
+	// c) Open the claw
+	moveMotor(clawMotor, -20, degrees, 75);
+	// d) Move forward until the Sonar Sensor is less than or equal to 75 mm
+	setMultipleMotors(50, leftMotor, rightMotor, , );
+	waitUntil (getDistanceValue(distanceMM) &lt;= 75);
+	stopAllMotors();
+	// e) Close the Claw
+	moveMotor(clawMotor, 1, seconds, 75);
+	// f) Use the Gyro Sensor to turn right about 90 degrees (the current reading is at 90)
+	setMotor(leftMotor, 75);
+	setMotor(rightMotor, -75);
+	waitUntil (getGyroDegrees(gyroSensor) &lt;= 5);
+	stopAllMotors();
+	// STEP 2) Place the blue cube on the belt
+	// a) Reset the motor encoders so we can use the distance we traveled later
+	resetMotorEncoder(leftMotor);
+	// b) Move forward and raise the arm up until the robot bumps the wall
+	setMultipleMotors(75, leftMotor, rightMotor, , );
+	moveMotor(armMotor, 3, seconds, 75);
+	waitUntil (getBumperValue(bumpSwitch) == 1);
+	// c) Back up 1 rotation so we can place the cube on the belt
+	backward(1, rotations, 75);
+	// d) Place the blue cube on the belt
+	setMotor(armMotor, -75);
+	waitUntil (getBumperValue(bumpSwitch) == 1);
+	moveMotor(clawMotor, 1, seconds, -75);
+	// STEP 3) Retrieve the second blue block
+	// a) Use Motor Encoders to travel back to the warehouse.
+	setMultipleMotors(-75, leftMotor, rightMotor, , );
+	waitUntil (getMotorEncoder(leftMotor) &lt;= 0);
+	stopAllMotors();
+	// b) Use the Gyro Sensor to turn Left 90 Degrees (current reading is at 0)
+	setMotor(leftMotor, -75);
+	setMotor(rightMotor, 75);
+	waitUntil (getGyroDegrees(gyroSensor) &gt;= 88);
+	stopAllMotors();
+	// c) Open the claw and move forward three rotations
+	moveMotor(clawMotor, 1, seconds, -75);
+	forward(.3, rotations, 75);
+	// d) Close the claw and grab the block
+	moveMotor(clawMotor, 1, seconds, 75);
+	// STEP 4) Stack the blue block on to the blue base
+	// a) Use the Gyro Sensor to tuen 180 degrees (current reading at 90)
+	setMotor(leftMotor, -75);
+	setMotor(rightMotor, 75);
+	waitUntil (getGyroDegrees(gyroSensor) &gt;= 267);
+	stopAllMotors();
+	// b) Raise the arm up and move forward to the blue base
+	moveMotor(armMotor, .8, seconds, 75);
+	forward(5, rotations, 75);
+	// c) Drop the cube on to the blue base
+	moveMotor(clawMotor, 1, seconds, -50);
+	// 5) Turn on the belt CW until the blue block is on the blue stop pad and retrieve it at the same time.
+	// a) Turn left to face the belt
+	turnLeft(.567, rotations, 50);
+	setMotor(armMotor, -50);
+	waitUntil (getBumperValue(bumpSwitch) == 1);
+	// b) Turn the belt on CW for 2.07 seconds until turning it off
+	setTouchLEDColor(touchLED, colorViolet);
+	wait(2.07, seconds);
+	setTouchLEDColor(touchLED, colorNone);
+	stopAllMotors();
+	// END OF SAMPLE PROGRAM
+	// 6) Retrieve and stack the second blue block
+}
+</CSource>

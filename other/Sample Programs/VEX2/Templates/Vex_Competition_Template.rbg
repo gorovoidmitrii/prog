@@ -1,0 +1,50 @@
+<Version>1.0.1</Version>
+
+<ProgrammingBlock type="comment">Use Motors &amp; Sensor Setup to Configure Your Robot!</ProgrammingBlock>
+
+<ProgrammingBlock type="functionCall" function="enableCompetitionMode"/>
+
+<ProgrammingBlock type="loop" loopType="RepeatForever"/>
+
+<ProgrammingBlock type="comment">Place Autonomous Commands Below</ProgrammingBlock>
+
+<ProgrammingBlock type="loop" loopType="IfOnly">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getCompetitionAutonomous()</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="int">true</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="end"/>
+
+<ProgrammingBlock type="comment">Place Remote Control Commands Below</ProgrammingBlock>
+
+<ProgrammingBlock type="loop" loopType="IfOnly">
+    <Parameters>
+        <Parameter name="LHS" type="typedef">getCompetitionDriverControl()</Parameter>
+        <Parameter name="operator" type="typedef">==</Parameter>
+        <Parameter name="RHS" type="int">true</Parameter>
+    </Parameters>
+</ProgrammingBlock>
+
+<ProgrammingBlock type="end"/>
+
+<ProgrammingBlock type="end"/>
+
+<RobotConfiguration></RobotConfiguration>
+
+<CSource>task main()
+{
+	// Use Motors &amp; Sensor Setup to Configure Your Robot!
+	enableCompetitionMode();
+	repeat (forever) {
+		// Place Autonomous Commands Below
+		if (getCompetitionAutonomous() == true) {
+		}
+		// Place Remote Control Commands Below
+		if (getCompetitionDriverControl() == true) {
+		}
+	}
+}
+</CSource>
